@@ -280,7 +280,6 @@ namespace OsuLBCheck
                             {
                                 label_Info.Text = "";
                                 //there was a beatmap change; request API for new top scores.
-                                //function goes here (only happens on beatmap change??)
                                 if (accessToken == "")
                                 {
                                     label_Info.Text += "Access token was empty. requesting new one.\r\n";
@@ -289,7 +288,9 @@ namespace OsuLBCheck
                                 else
                                 {
                                     //access token is valid and existing; retrieve beatmap scores from API
-                                    retrieveScoresFromAPI(baseAddresses.Beatmap.Id);
+                                    //check if beatmap ID is valid (beatmap might not be submitted!!)
+                                    if (baseAddresses.Beatmap.Id != 0) retrieveScoresFromAPI(baseAddresses.Beatmap.Id);
+                                    else label_Info.Text += "This beatmap doesn't appear to be submitted.";
                                 }
                                 oldBeatmapID = baseAddresses.Beatmap.Id;
                                 label_Info.Text += baseAddresses.Beatmap.MapString + "\r\n";
@@ -338,17 +339,9 @@ namespace OsuLBCheck
             {
                 if (InvokeRequired)
                 {
-                    //Async call to not impact memory read times(too much)
                     BeginInvoke((MethodInvoker)(() => SreaderOnInvalidRead(sender, e)));
                     return;
                 }
-
-                //listBox_logs.Items.Add($"{DateTime.Now:T} Error reading {e.propPath}{Environment.NewLine}");
-                //if (listBox_logs.Items.Count > 500)
-                //    listBox_logs.Items.RemoveAt(0);
-
-                //listBox_logs.SelectedIndex = listBox_logs.Items.Count - 1;
-                //listBox_logs.ClearSelected();
             }
             catch (ObjectDisposedException)
             {
@@ -363,8 +356,6 @@ namespace OsuLBCheck
                 _memoryReadTimeMin = double.PositiveInfinity;
                 _memoryReadTimeMax = double.NegativeInfinity;
             }
-
-            //listBox_logs.Items.Clear();
         }
 
     }
