@@ -38,6 +38,7 @@
             label_CurrentScore = new Label();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            label4 = new Label();
             pictureBox1 = new PictureBox();
             label_Info = new Label();
             tabPage2 = new TabPage();
@@ -136,6 +137,7 @@
             // tabPage1
             // 
             tabPage1.BackColor = Color.FromArgb(64, 64, 64);
+            tabPage1.Controls.Add(label4);
             tabPage1.Controls.Add(pictureBox1);
             tabPage1.Controls.Add(label_Info);
             tabPage1.Controls.Add(label_CurrentScore);
@@ -147,6 +149,17 @@
             tabPage1.Size = new Size(291, 879);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Data";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F);
+            label4.Location = new Point(3, 796);
+            label4.MaximumSize = new Size(290, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(253, 21);
+            label4.TabIndex = 31;
+            label4.Text = "Country #1s Achieved this session: ";
             // 
             // pictureBox1
             // 
@@ -173,7 +186,7 @@
             tabPage2.Location = new Point(4, 27);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(297, 879);
+            tabPage2.Size = new Size(291, 879);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "API Info";
             tabPage2.UseVisualStyleBackColor = true;
@@ -211,6 +224,7 @@
         private TabPage tabPage2;
         private Label label_Info;
         private PictureBox pictureBox1;
+        private Label label4;
     }
 
 

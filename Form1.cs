@@ -184,6 +184,8 @@ namespace OsuLBCheck
                 var baseAddresses = new OsuBaseAddresses();
                 bool beatmapChange = false;
                 var oldBeatmapID = 0;
+                int snipeCount = 0;
+                bool currentSnipeDone = true;
                 while (true)
                 {
                     if (cts.IsCancellationRequested)
@@ -275,7 +277,12 @@ namespace OsuLBCheck
                     try
                     {
                         Invoke((MethodInvoker)(() =>
-                        {                           
+                        {             
+                            if(baseAddresses.GeneralData.OsuStatus == OsuMemoryStatus.SongSelect)
+                            {
+                                if (currentSnipeDone) currentSnipeDone = false;
+                            }
+
                             if (oldBeatmapID != baseAddresses.Beatmap.Id)
                             {
                                 label_Info.Text = "";
@@ -311,7 +318,19 @@ namespace OsuLBCheck
                                 {
                                     label_CurrentScore.ForeColor = System.Drawing.Color.Green;
                                 }
+                                if (!currentSnipeDone) currentSnipeDone = true;
                             }
+
+                            if(baseAddresses.GeneralData.OsuStatus == OsuMemoryStatus.ResultsScreen)
+                            {
+                                if(baseAddresses.ResultsScreen.Score > int.Parse(label_ScoreToBeat.Text) && currentSnipeDone)
+                                {
+                                    currentSnipeDone = false;
+                                    snipeCount++;
+                                    label4.Text = "Country #1s Achieved this session: " + snipeCount;
+                                }
+                            }
+
                             else
                             {
                                 if(_readDelay != 1000)
